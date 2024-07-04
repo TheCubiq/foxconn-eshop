@@ -2,14 +2,7 @@
   import { onMount } from 'svelte';
   import { cart } from '$lib/store';
   import { get } from 'svelte/store';
-
-  interface CartItem {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    quantity: number;
-  }
+  import type { CartItem } from '$lib/store';
 
   let cartItems: CartItem[] = [];
   let total = 0;
@@ -41,15 +34,19 @@
 <main>
   <h1>Your Cart</h1>
   <ul>
-    {#each cartItems as item}
-      <li>
-        <h2>{item.name}</h2>
-        <p>{item.description}</p>
-        <p>${(item.price / 100).toFixed(2)}</p>
-        <p>Quantity: {item.quantity}</p>
-        <button on:click={() => removeFromCart(item.id)}>Remove</button>
-      </li>
-    {/each}
+    {#if cartItems.length}
+      {#each cartItems as item}
+        <li>
+          <h2>{item.name}</h2>
+          <p>{item.description}</p>
+          <p>${(item.price / 100).toFixed(2)}</p>
+          <p>Quantity: {item.quantity}</p>
+          <button on:click={() => removeFromCart(item.id)}>Remove</button>
+        </li>
+      {/each}
+    {:else}
+      <li>Your cart is empty.</li>
+    {/if}
   </ul>
   <h3>Total: ${(total / 100).toFixed(2)}</h3>
 </main>

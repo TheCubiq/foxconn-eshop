@@ -1,6 +1,10 @@
 <script lang="ts">
   import { cart } from '$lib/store';
   import type { PageData } from './$types';
+  import type { CartItem } from '$lib/store';
+  import '@splinetool/viewer';
+
+  import cam from '$lib/assets/models/camera.spline?url';
 
   export let data: PageData; // loaded from page.ts
 
@@ -12,7 +16,8 @@
       if (existing) {
         existing.quantity += 1;
       } else {
-        items.push({ ...product, quantity: 1 });
+        const newItem: CartItem = { ...product, quantity: 1 };
+        items.push(newItem);
       }
       return items;
     });
@@ -31,6 +36,9 @@
   <div class="product-grid">
     {#each products as product}
       <div class="product">
+        <div class="container">
+          <spline-viewer events-target="global" url={cam}></spline-viewer>
+        </div>
         <h2>{product.name}</h2>
         <p>{product.description}</p>
         <p>${(product.price / 100).toFixed(2)}</p>
