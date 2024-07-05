@@ -1,0 +1,74 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --clr-bg: #040404;
+  --clr-text: #d2d2d2;
+  --clr-accent: #ffe3f9;
+
+  --border-rad: 1em;
+
+  
+  background: var(--clr-bg);
+}
+
+::selection {
+  color: #fff;
+  background: #f0f3;
+} 
+
+html {
+  background: var(--clr-bg);
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  min-width: 320px;
+  height: 100svh;
+
+  /* background: var(--clr-bg); */
+  color: var(--clr-text);
+  overflow: hidden;
+
+  padding: 2rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#app {
+
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  position: relative;
+
+  height: 100%;
+  width: calc(100svw - (100svw - 100%));
+  max-width: 80rem;
+}
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+}

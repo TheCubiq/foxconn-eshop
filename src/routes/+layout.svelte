@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { cart } from '$lib/store';
+  import '../app.css'
+	import Header from '$lib/components/Header.svelte';
 </script>
 
-<nav>
-  <a href="/products">Products</a>
-  <a href="/cart">Cart ({$cart.length})</a>
-</nav>
+
+<Header />
 
 <slot />

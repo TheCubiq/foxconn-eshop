@@ -8,6 +8,13 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+}
+
 // Helper functions to load and save cart items from/to localStorage
 function loadCartItems(): CartItem[] {
   if (typeof localStorage !== 'undefined') {
