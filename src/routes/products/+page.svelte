@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { cart } from '$lib/store';
   import type { PageData } from './$types';
-  import type { CartItem, Product as ProductType } from '$lib/store';
+  import type { Product as ProductType } from '$lib/store';
 
 	import Product from '$lib/components/Product.svelte';
 	import { fade, fly } from 'svelte/transition';
@@ -10,19 +9,6 @@
   export let data: PageData; // loaded from page.ts
 
   const products: ProductType[] = data.products || [];
-
-  function addToCart(product: ProductType) {
-    cart.update(items => {
-      const existing = items.find(item => item.id === product.id);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        const newItem: CartItem = { ...product, quantity: 1 };
-        items.push(newItem);
-      }
-      return items;
-    });
-  }
 </script>
 
 <main>

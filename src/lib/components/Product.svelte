@@ -1,16 +1,32 @@
 <script lang="ts">
-	import type { Product as ProductType } from "$lib/store";
+  import { cart } from '$lib/store';
+	import type { CartItem, Product as ProductType } from "$lib/store";
 	import cam from '$lib/assets/models/camera.splinecode?url';
 
   export let product: ProductType;
 
   const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.`;
 
+  
+  function addToCart(product: ProductType) {
+    cart.update(items => {
+      const existing = items.find(item => item.id === product.id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        const newItem: CartItem = { ...product, quantity: 1 };
+        items.push(newItem);
+      }
+      return items;
+    });
+  }
+
 </script>
 
 <div class="product">
   <div class="container">
-    <spline-viewer events-target="global" url={product.model_url || cam}></spline-viewer>
+    <!-- <spline-viewer events-target="global" url={product.model_url || cam}></spline-viewer> -->
+    <img src={product.thumb_url} alt={product.name} style="width: 100%; height: 100%; object-fit: cover;">
   </div>
   <div class="info-wrapper">
     <h2>{product.name}</h2>
@@ -21,7 +37,7 @@
     <!-- <p>{product.description}</p> -->
     <p class="desc">{lorem}</p>
   </div>
-  <!-- <button on:click={() => addToCart(product)}>Add to Cart</button> -->
+  <button on:click={() => addToCart(product)}>Add to Cart</button>
 </div>
 
 <style>
