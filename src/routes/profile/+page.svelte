@@ -69,6 +69,9 @@
 		<h1>User Profile</h1>
 
 		{#if authUser && profile}
+
+			<a href="/orders">My orders</a>
+
 			<form on:submit={updateProfile}>
 				<div>
 					<label for="email">Email:</label>
@@ -98,6 +101,11 @@
 	section {
 		max-width: 300px;
 		margin: 0 auto;
+
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+
 	}
 
 	form div {
@@ -112,4 +120,13 @@
 	button {
 		width: 100%;
 	}
+
+	a, button {
+		background-color: #333;
+		padding: 0.5em 1em;
+		border-radius: var(--border-rad);
+		border: none;
+		color: inherit;
+	}
+
 </style>

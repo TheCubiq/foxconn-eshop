@@ -8,9 +8,14 @@
 	import { PackageX } from 'lucide-svelte';
 	import { fly, } from 'svelte/transition';
 	import { transitionFix } from '$lib/utils/helperFunctions';
+	import { user } from '$lib/user';
+	import { goto } from '$app/navigation';
+	import { supabase } from '$lib/supabase';
 
 	let cartItems: CartItem[] = [];
 	let total = 0;
+	let authUser = get(user);
+	let message = '';
 
 	const recalculateTotal = (items: CartItem[]) => {
 		total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -38,6 +43,52 @@
 		const cartItems = get(cart);
 		recalculateTotal(cartItems);
 	};
+	
+	async function buy() {
+    if (!authUser) {
+      // goto('/login');
+			message = 'Please log in to place an order.';
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .insert({
+          user_id: authUser.id,
+          total: total,
+          created_at: new Date()
+        })
+        .select('id') // Use the select() function to return the inserted order IDs.
+        .single();
+      
+      if (error) throw error;
+
+      // Add order items
+      for (const item of cartItems) {
+        const { error: orderItemError } = await supabase.from('order_items').insert({
+          order_id: data.id, // Use the returned order ID
+          product_id: item.id,
+          quantity: item.quantity,
+          price: item.price
+        });
+
+        if (orderItemError) throw orderItemError;
+      }
+
+      // Clear cart
+      cart.set([]);
+      message = 'Order successfully placed!';
+
+      // Redirect to "My Orders" page
+      // goto('/orders');
+			// redirect directly to the order page
+			goto(`/orders/${data.id}`);
+
+    } catch (error: any) {
+      message = `Error: ${error.message}`;
+    }
+  }
 
 	onMount(() => {
 		const items = get(cart);
@@ -80,8 +131,14 @@
 						<button on:click={() => removeFromCart(item.id)}><PackageX /></button>
 					</li>
 				{/each}
+
+				<button on:click={buy}>Buy</button>
+				{#if message}
+					<p>{message}</p>
+				{/if}
+
 			{:else}
-				<li>Your cart is empty.</li>
+				<li class="empty">Your cart is empty.</li>
 			{/if}
 		</ul>
 	</section>
@@ -120,7 +177,9 @@
 		margin-bottom: 1rem;
 	}
 
-	li::before {
+	/* li::before { */
+	/* li:not(:only-child)::before { */
+	li:not(.empty)::before {
 		content: '';
 		flex: 1;
 		order: -1;
@@ -128,6 +187,10 @@
 		color: white;
 		opacity: 0.8;
 		border-bottom: currentColor 2px dotted;
+	}
+
+	.empty {
+		justify-content: center;
 	}
 
 	h2 {
