@@ -1,38 +1,48 @@
-# create-svelte
+# Project Name
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Getting Started
 
-## Creating a project
+To set up the project for development, follow these steps:
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Prerequisites
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-# create a new project in my-app
-npm create svelte@latest my-app
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/your-username/project-name.git
+   cd project-name
+   ```
+2. Install the node modules using [pnpm](https://pnpm.io/installation "installation guide") (preferred) or npm:
+
+   ```sh
+    pnpm install
+   ```
+
+   > Alternatively, you can use `npm install` instead, but this project was built using `pnpm`.
+   >
+
+### Running the Development Build
+
+To start the development server, simply run:
+
+```sh
+pnpm run dev
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+The application should now be running on [http://localhost:6969](http://localhost:6969/).
 
 ## Building
 
 To create a production version of your app:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
-You can preview the production build with `npm run preview`.
+---
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Happy coding! 🌟

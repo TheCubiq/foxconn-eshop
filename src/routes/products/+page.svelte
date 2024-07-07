@@ -1,15 +1,17 @@
 <script lang="ts">
   import { cart } from '$lib/store';
   import type { PageData } from './$types';
-  import type { CartItem, Product } from '$lib/store';
+  import type { CartItem, Product as ProductType } from '$lib/store';
 
-	import cam from '$lib/assets/models/camera.splinecode?url';
+	import Product from '$lib/components/Product.svelte';
+	import { fade, fly } from 'svelte/transition';
+	import { transitionFix } from '$lib/utils/helperFunctions';
 
   export let data: PageData; // loaded from page.ts
 
-  const products: Product[] = data.products || [];
+  const products: ProductType[] = data.products || [];
 
-  function addToCart(product: Product) {
+  function addToCart(product: ProductType) {
     cart.update(items => {
       const existing = items.find(item => item.id === product.id);
       if (existing) {
@@ -26,33 +28,18 @@
 <main>
   <h1>Products</h1>
   <div class="product-grid">
-    {#each products as product}
-      <div class="product">
-        <div class="container">
-          <!-- <spline-viewer events-target="global" url={cam}></spline-viewer> -->
-        </div>
-        <h2>{product.name}</h2>
-        <p>{product.description}</p>
-        <p>${(product.price / 100).toFixed(2)}</p>
-        <button on:click={() => addToCart(product)}>Add to Cart</button>
+    {#each products as product, idx (product.id)}
+      <div in:fly|global={transitionFix({ y: 100, duration: 1000, delay: idx * 100 + 750 })}>
+        <Product {product}/>
       </div>
     {/each}
   </div>
 </main>
 
 <style>
-  main {
-    flex: 1;
-  }
   .product-grid {
-    display: flex;
-    flex-wrap: wrap;
     gap: 1rem;
-  }
-  .product {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    width: calc(33.333% - 1rem);
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   }
 </style>

@@ -1,5 +1,8 @@
 <script lang="ts">
-	import flash from '$lib/assets/models/camera.splinecode?url';
+	import flash from '$lib/assets/models/flash.splinecode?url';
+	import { transitionFix as tFix } from '$lib/utils/helperFunctions';
+	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	// import type { PageData } from './$types';
 	// import type { Product } from '$lib/store';
@@ -11,32 +14,42 @@
 	// const getProducts = (n: number) => {
 	// 	return products.slice(0, n);
 	// };
+
+	let loaded = false;
+
+	onMount(() => {
+		loaded = true;
+	});
 </script>
 
 <main>
-	<section id="hero">
-		<article id="title">
-			<h1>Cubiq's Electro</h1>
-			<p>Meet your new favorite electronic store!</p>
-			<a href="/products">Get Started 🔥</a>
-		</article>
-		<article id="grid">
-			<!-- {#each getProducts(3) as product} -->
-			{#each Array(3) as _}
-				<div class="container">
-					<spline-viewer events-target="global" url={flash} background="transparent"></spline-viewer>
-					<menu>
-						<a href=" ">see more</a>
-					</menu>
-				</div>
-			{/each}
-		</article>
-	</section>
+	{#if loaded}
+		<section id="hero" out:fly={tFix({ y: -100, duration: 1500 })}>
+			<article id="title" in:fly|global={tFix({ x: 100, duration: 1500, delay: 750 })}>
+				<h1>Cubiq's Electro</h1>
+				<p>Meet your new favorite electronic store!</p>
+				<a href="/products">Get Started 🔥</a>
+			</article>
+			<article id="grid" in:fly|global={tFix({ x: -100, duration: 1500, delay: 1000 })}>
+				<!-- {#each getProducts(3) as product} -->
+				{#each Array(3) as _}
+					<div class="container">
+						<div class="cont">
+							<spline-viewer events-target="global" url={flash} background="transparent" ></spline-viewer>
+							<!-- <spline-viewer events-target="global" url="https://prod.spline.design/am3zqoyPS5PFSsMi/scene.splinecode" background="transparent" ></spline-viewer> -->
+						</div>
+						<menu>
+							<a href=" ">see more</a>
+						</menu>
+					</div>
+				{/each}
+			</article>
+		</section>
+	{/if}
 </main>
 
 <style>
 	main {
-		flex: 1;
 		display: flex;
 		align-items: center;
 		background-color: var(--clr-bg);
@@ -76,7 +89,7 @@
 	#title a {
 		padding: 0.5em 1em;
 		border-radius: 1em;
-		background: var(--clr-accent);
+		background: var(--clr-primary);
 		color: var(--clr-bg);
 		text-decoration: none;
 		text-align: center;
@@ -95,22 +108,30 @@
 	.container {
 		border-radius: 2em;
 		overflow: hidden;
-		background: var(--clr-accent);
+		background: var(--clr-primary);
 		position: relative;
 		text-align: center;
 	}
 
-	.container > spline-viewer {
+	.container spline-viewer {
 		transition: 0.3s;
 	}
 
-	.container:hover > spline-viewer,
-	.container:focus-within > spline-viewer {
+	.container:hover spline-viewer,
+	.container:focus-within spline-viewer {
 		transform: scale(1.1);
 	}
 
 	#grid .container:nth-child(1) {
 		grid-row: span 2;
+	}
+
+	.cont {
+		height: 100%;
+	}
+
+	spline-viewer {
+		pointer-events: none;
 	}
 
 	menu {

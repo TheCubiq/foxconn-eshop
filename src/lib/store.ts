@@ -13,6 +13,8 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  model_url: string;
+  image_url: string;
 }
 
 // Helper functions to load and save cart items from/to localStorage
@@ -34,11 +36,9 @@ function saveCartItems(cartItems: CartItem[]) {
 const initialCart = loadCartItems();
 
 // Create a writable store for the cart
-const cart = writable<CartItem[]>(initialCart);
+export const cart = writable<CartItem[]>(initialCart);
 
 // Subscribe to cart changes and save them to localStorage
 cart.subscribe((value) => {
   saveCartItems(value);
 });
-
-export { cart };

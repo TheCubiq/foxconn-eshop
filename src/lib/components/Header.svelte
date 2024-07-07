@@ -1,56 +1,88 @@
 <script lang="ts">
-  import { cart } from '$lib/store';
-
-	import { Bell, Flame, House, ShoppingBag, ShoppingCart } from 'lucide-svelte';
+	import { cart } from '$lib/store';
+	import { user } from '$lib/user';
+	import { Bell, Flame, House, ShoppingBag, ShoppingCart, UserRound } from 'lucide-svelte';
 
 	import Logo from '$lib/assets/CubiqLogo.svelte';
-  import pfp from '$lib/assets/images/pfp.webp';
+	import pfp from '$lib/assets/images/pfp.webp';
+	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
+	import { transitionFix as tFix } from '$lib/utils/helperFunctions';
+	import { fly } from 'svelte/transition';
+
+	let authUser = get(user);
+
+	const unsubscribe = user.subscribe((value) => {
+		authUser = value;
+	});
+
+	let loaded = false;
+
+	onMount(() => {
+		loaded = true;
+	});
 </script>
 
-<header>
-	<!-- logo -->
-  <Logo />
-
-	<nav class="menu">
-    <a href="/">
-      <House size="1em" />
-      <span>Home</span>
-    </a>
-    <a href="/products">
-      <ShoppingBag size="1em" />
-      <span>Products</span>
-    </a>
-    <a href="/products?hot" class="mobile-hide">
-      <Flame size="1em" />
-      <span>Hot Deals</span>
-    </a>
-    <a href="/cart" class="mobile">
-      <ShoppingCart size="1em" />
-      <span>Cart ({$cart.length})</span>
-    </a>
-    <a href="/" class="pfp mobile">
+{#snippet userProfile(mobile?: false)}
+	{#if authUser}
+		<a href="/profile" class="pfp" class:mobile>
 			<img src={pfp} alt="pfp" />
 		</a>
-
-	</nav>
-
-	<nav class="user">
-		<a href="/">
-			<Bell size="1em" />
+	{:else}
+		<a href="/login" class:mobile>
+			<UserRound size="1em" />
 		</a>
-    <a href="/cart">
-      <ShoppingCart size="1em" />
-      Cart ({$cart.length})
-    </a>
-		<a href="/" class="pfp">
-			<img src={pfp} alt="pfp" />
-		</a>
-	</nav>
-</header>
+	{/if}
+{/snippet}
+
+{#if loaded}
+<header in:fly|global={tFix({ y: -100, duration: 1000, delay: 1500 })}>
+		<!-- logo -->
+		<Logo />
+
+		<nav class="menu"  in:fly|global={tFix({ y: -100, duration: 1000, delay: 1750 })}>
+			<a href="/">
+				<House size="1em" />
+				<span>Home</span>
+			</a>
+			<a href="/products">
+				<ShoppingBag size="1em" />
+				<span>Products</span>
+			</a>
+			<a href="/products?hot" class="mobile-hide">
+				<Flame size="1em" />
+				<span>Hot Deals</span>
+			</a>
+			<a href="/cart" class="mobile">
+				<ShoppingCart size="1em" />
+				<span>Cart ({$cart.length})</span>
+			</a>
+			{@render userProfile(true)}
+		</nav>
+
+		<nav class="user" in:fly|global={tFix({ y: -100, duration: 1000, delay: 2000 })}>
+			<a href="/">
+				<Bell size="1em" />
+			</a>
+			<a href="/cart">
+				<ShoppingCart size="1em" />
+				Cart ({$cart.length})
+			</a>
+			{@render userProfile()}
+		</nav>
+	</header>
+	{/if}
 
 <style>
 	:root {
 		--bg-img: 'https://i.imgur.com/20Q7JDm.png';
+	}
+
+	:global(header > svg),
+	header > nav.user {
+		visibility: hidden;
+		width: 0;
+		padding: 0;
 	}
 
 	header {
@@ -64,15 +96,17 @@
 	}
 
 	header > nav {
+		--p: 1em 2em;
+
 		/* background-color: color-mix(
           in lab, 
           var(--clr-bg) 80%, 
           transparent
       ); */
-		background-color: var(--clr-accent);
+		background-color: var(--clr-primary);
 
 		border-radius: var(--border-rad);
-		padding: 1em 2em;
+		padding: var(--p);
 
 		backdrop-filter: blur(12px);
 		opacity: 0.9;
@@ -86,13 +120,13 @@
 		gap: 0.3em;
 		text-decoration: none;
 		color: var(--clr-bg);
-    opacity: .7;
-    transition: .2s;
+		opacity: 0.7;
+		transition: 0.2s;
 	}
 
 	a:hover {
 		/* color: var(--clr-primary); */
-    opacity: 1;
+		opacity: 1;
 	}
 
 	a.pfp {
@@ -113,13 +147,14 @@
 		object-fit: cover;
 	}
 
-  a span,
-  .mobile-hide {
-    display: none;
-  }
+	a span,
+	.mobile-hide {
+		display: none;
+	}
 
 	header {
 		z-index: 999999;
+		transform: translateZ(0px);
 
 		position: fixed;
 		left: 0;
@@ -153,19 +188,14 @@
 		z-index: -1;
 	}
 
-	:global(header > svg),
-	header > nav.user {
-		visibility: hidden;
-		width: 0;
-	}
-
 	@media (min-width: 48rem) {
 		header {
 			position: sticky;
 			top: 0;
 			bottom: unset;
-      white-space: nowrap;
-      gap: 1em;
+			white-space: nowrap;
+			gap: 1em;
+			filter: drop-shadow(2px 4px 6px #0004);
 		}
 
 		header::before {
@@ -176,17 +206,17 @@
 		header > nav.user {
 			visibility: visible;
 			width: auto;
+			padding: var(--p);
 		}
 
-    a span,
-    .mobile-hide {
-      display: inline;
-    }
+		a span,
+		.mobile-hide {
+			display: inline;
+		}
 
-    a.mobile {
-      display: none;
-    }
-
+		a.mobile {
+			display: none;
+		}
 	}
 
 	nav.user {
