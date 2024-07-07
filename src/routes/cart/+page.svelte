@@ -36,7 +36,7 @@
 		cart.update((items) => {
 			const item = items.find((item) => item.id === productId);
 			if (item) {
-				item.quantity = quantity;
+				item.quantity = Math.min(quantity, item.stock.quantity);
 			}
 			return items;
 		});
@@ -133,6 +133,8 @@
 				{/each}
 
 				<button on:click={buy}>Buy</button>
+				<!-- empty cart button -->
+				<button on:click={() => cart.set([])}>Empty Cart</button>
 				{#if message}
 					<p>{message}</p>
 				{/if}

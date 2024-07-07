@@ -1,7 +1,9 @@
 <script lang="ts">
   import { cart } from '$lib/store';
-	import type { CartItem, Product as ProductType } from "$lib/store";
+	import type { CartItem, Product, Product as ProductType } from "$lib/store";
 	import cam from '$lib/assets/models/camera.splinecode?url';
+	import { derived, get, writable } from 'svelte/store';
+	import { onMount } from 'svelte';
 
   export let product: ProductType;
 
@@ -21,6 +23,29 @@
     });
   }
 
+  const initialStock = product.stock ? product.stock.quantity : 0;
+  let stock = writable(initialStock);
+
+  onMount(() => {
+
+    
+    const calculateStock = derived(
+      [cart],
+      ([$cart]) => {
+        const cartItem: CartItem | undefined = $cart.find(item => item.id === product.id);
+        return initialStock - (cartItem ? cartItem.quantity : 0);
+      }
+    );
+    
+    const unsubscribe = calculateStock.subscribe(value => {
+      stock.set(value);
+    });
+    
+    return () => {
+      unsubscribe();
+    };
+  })
+
 </script>
 
 <div class="product">
@@ -32,12 +57,19 @@
     <h2>{product.name}</h2>
     <div class="details">
       <span>${(product.price / 100).toFixed(2)}</span>
-      <span>{product.stockCount || 0} in stock</span>
+      <!-- <span>{product.stock?.quantity || 99} in stock</span> -->
+    {#if $stock > 0}
+      <span>{$stock} in stock</span>
+    {:else}
+      <span>Out of stock</span>
+    {/if}
     </div>
-    <!-- <p>{product.description}</p> -->
-    <p class="desc">{lorem}</p>
+    <p>{product.description}</p>
+    <!-- <p class="desc">{lorem}</p> -->
+      <button on:click={() => addToCart(product)}
+        disabled={$stock <= 0}
+        >Add to Cart</button>
   </div>
-  <button on:click={() => addToCart(product)}>Add to Cart</button>
 </div>
 
 <style>

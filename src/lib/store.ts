@@ -6,6 +6,10 @@ export interface CartItem {
   description: string;
   price: number;
   quantity: number;
+
+  stock: {
+    quantity: number;
+  };
 }
 
 export interface Product {
@@ -15,6 +19,11 @@ export interface Product {
   price: number;
   model_url: string;
   image_url: string;
+  thumb_url: string;
+
+  stock: {
+    quantity: number;
+  };
 }
 
 // Helper functions to load and save cart items from/to localStorage

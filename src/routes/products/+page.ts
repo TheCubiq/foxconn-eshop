@@ -6,7 +6,8 @@ export const load: PageLoad = async () => {
     const { 
         data: products = [], 
         error 
-    } = await supabase.from('products').select('*');
+    // } = await supabase.from('products').select('*');
+    } = await supabase.from('products').select('*, stock(quantity)');
 
     if (error) console.error(error);
 
