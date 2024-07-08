@@ -105,7 +105,7 @@ main {
 
   /* wait that's illegal */
   /* tweaking product colors so that it fits the design  */
-  spline-viewer, .product > .container {
+  #spline-viewer, .product > .container {
     filter: saturate(0.5);
   }
 

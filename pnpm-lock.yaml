@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@splinetool/viewer':
-    specifier: 1.8.7
-    version: 1.8.7
+  '@splinetool/runtime':
+    specifier: 1.8.9
+    version: 1.8.9
   '@supabase/supabase-js':
     specifier: 2.44.2
     version: 2.44.2
@@ -372,16 +372,6 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@lit-labs/ssr-dom-shim@1.2.0:
-    resolution: {integrity: sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==}
-    dev: false
-
-  /@lit/reactive-element@1.6.3:
-    resolution: {integrity: sha512-QuTgnG52Poic7uM1AN5yJ09QMe0O28e10XzSvWDz02TJiiKee4stsiownEIadWm8nYzyDAyT+gKzUoZmiWQtsQ==}
-    dependencies:
-      '@lit-labs/ssr-dom-shim': 1.2.0
-    dev: false
-
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -535,10 +525,11 @@ packages:
     dev: true
     optional: true
 
-  /@splinetool/viewer@1.8.7:
-    resolution: {integrity: sha512-eeXRamrtPj4ncAGiNENfTEFUViBhLJCTD1tYKUJsYsGbDJVYknB00E24ZAJI45gpFtPPxXrg/WjIqBzA/eUEug==}
+  /@splinetool/runtime@1.8.9:
+    resolution: {integrity: sha512-YoqtdtQNWI7FPHpNpiHn2UZdc72YraOIEWAPGqFpJQ5+KGnVc3pmRNNjLJ4wR0CmUiiePeclKT3rj3vk1pdw+w==}
     dependencies:
-      lit: 2.8.0
+      on-change: 4.0.2
+      semver-compare: 1.0.0
     dev: false
 
   /@supabase/auth-js@2.64.2:
@@ -701,10 +692,6 @@ packages:
   /@types/pug@2.0.10:
     resolution: {integrity: sha512-Sk/uYFOBAB7mb74XcpizmH0KOR2Pv3D2Hmrh1Dmy5BmK3MpdSa5kqZcg6EKBdklU0bFXX9gCfzvpnyUehrPIuA==}
     dev: true
-
-  /@types/trusted-types@2.0.7:
-    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-    dev: false
 
   /@types/ws@8.5.10:
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
@@ -1519,28 +1506,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /lit-element@3.3.3:
-    resolution: {integrity: sha512-XbeRxmTHubXENkV4h8RIPyr8lXc+Ff28rkcQzw3G6up2xg5E8Zu1IgOWIwBLEQsu3cOVFqdYwiVi0hv0SlpqUA==}
-    dependencies:
-      '@lit-labs/ssr-dom-shim': 1.2.0
-      '@lit/reactive-element': 1.6.3
-      lit-html: 2.8.0
-    dev: false
-
-  /lit-html@2.8.0:
-    resolution: {integrity: sha512-o9t+MQM3P4y7M7yNzqAyjp7z+mQGa4NS4CxiyLqFPyFWyc4O+nodLrkrxSaCTrla6M5YOLaT3RpbbqjszB5g3Q==}
-    dependencies:
-      '@types/trusted-types': 2.0.7
-    dev: false
-
-  /lit@2.8.0:
-    resolution: {integrity: sha512-4Sc3OFX9QHOJaHbmTMk28SYgVxLN3ePDjg7hofEft2zWlehFL3LiAuapWc4U/kYwMYJSh2hTCPZ6/LIC7ii0MA==}
-    dependencies:
-      '@lit/reactive-element': 1.6.3
-      lit-element: 3.3.3
-      lit-html: 2.8.0
-    dev: false
-
   /locate-character@3.0.0:
     resolution: {integrity: sha512-SW13ws7BjaeJ6p7Q6CO2nchbYEc3X3J6WrmTTDto7yMPqVSZTUyY5Tjbid+Ab8gLnATtygYtiDIJGQRRn2ZOiA==}
 
@@ -1638,6 +1603,11 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /on-change@4.0.2:
+    resolution: {integrity: sha512-cMtCyuJmTx/bg2HCpHo3ZLeF7FZnBOapLqZHr2AlLeJ5Ul0Zu2mUJJz051Fdwu/Et2YW04ZD+TtU+gVy0ACNCA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
 
   /once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
@@ -1861,6 +1831,10 @@ packages:
       mkdirp: 0.5.6
       rimraf: 2.7.1
     dev: true
+
+  /semver-compare@1.0.0:
+    resolution: {integrity: sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==}
+    dev: false
 
   /semver@7.6.2:
     resolution: {integrity: sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==}

@@ -23,7 +23,7 @@
 	});
 </script>
 
-{#snippet userProfile(mobile?: false)}
+{#snippet userProfile(mobile = false)}
 	{#if authUser}
 		<a href="/profile" class="pfp" class:mobile>
 			<img src={pfp} alt="pfp" />
@@ -74,10 +74,6 @@
 	{/if}
 
 <style>
-	:root {
-		--bg-img: 'https://i.imgur.com/20Q7JDm.png';
-	}
-
 	:global(header > svg),
 	header > nav.user {
 		visibility: hidden;

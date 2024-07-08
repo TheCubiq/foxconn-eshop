@@ -5,6 +5,7 @@
 
 	import type { PageData } from './$types';
 	import type { Product } from '$lib/store';
+	import SplineViewer from '$lib/components/SplineViewer.svelte';
 
 	export let data: PageData; // loaded from page.ts
 
@@ -33,8 +34,10 @@
 				{#each getProducts(3) as product}
 				<!-- {#each Array(3) as _} -->
 					<div class="container">
-						<div class="cont">
-							<spline-viewer events-target="global" url={product.model_url} background="transparent"></spline-viewer>						</div>
+						<div class="spline-wrapper">
+							<!-- <spline-viewer events-target="global" url={product.model_url} background="transparent"></spline-viewer> -->
+							 <SplineViewer url={product.model_url} />
+						</div>
 						<menu>
 							<a href=" ">see more</a>
 						</menu>
@@ -49,7 +52,6 @@
 	main {
 		display: flex;
 		align-items: center;
-		background-color: var(--clr-bg);
 		/* padding: 1.5rem; */
 		column-gap: var(--spacing);
 		row-gap: var(--spacing-half);
@@ -110,12 +112,12 @@
 		text-align: center;
 	}
 
-	.container spline-viewer {
+	.container .spline-wrapper {
 		transition: 0.3s;
 	}
 
-	.container:hover spline-viewer,
-	.container:focus-within spline-viewer {
+	.container:hover .spline-wrapper,
+	.container:focus-within .spline-wrapper {
 		transform: scale(1.1);
 	}
 
@@ -123,11 +125,8 @@
 		grid-row: span 2;
 	}
 
-	.cont {
+	.spline-wrapper {
 		height: 100%;
-	}
-
-	spline-viewer {
 		pointer-events: none;
 	}
 
