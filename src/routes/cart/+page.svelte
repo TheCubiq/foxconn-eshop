@@ -124,7 +124,7 @@
 								required
 								min="1"
 								bind:value={item.quantity}
-								on:input={() => updateQuantity(item.id, item.quantity)}
+								on:focusout={() => updateQuantity(item.id, item.quantity)}
 							/>
 						</div>
 						<p>${(item.price / 100).toFixed(2)}</p>

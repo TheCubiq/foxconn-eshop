@@ -130,6 +130,8 @@
     <p>{message}</p>
   {/if}
 
+  <a href="/admin/admin-order-view">View Orders</a>
+
   <h2>Current Products</h2>
   <ul>
     {#each products as product}
