@@ -1,4 +1,6 @@
-# Project Name
+# Minimal svelte eshop
+
+> simple little demo project for the foxconn company
 
 ## Tasks:
 

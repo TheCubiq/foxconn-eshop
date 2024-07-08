@@ -107,9 +107,9 @@
 <main>
 	<section id="cart">
 		<h1>Your Cart</h1>
+		{#if cartItems.length}
 		<h3>Total: ${(total / 100).toFixed(2)}</h3>
 		<ul>
-			{#if cartItems.length}
 				{#each cartItems as item, idx (item.name)}
 					<li
 						
@@ -139,10 +139,10 @@
 					<p>{message}</p>
 				{/if}
 
+			</ul>
 			{:else}
-				<li class="empty">Your cart is empty.</li>
+				<p class="empty">Your cart is empty.</p>
 			{/if}
-		</ul>
 	</section>
 </main>
 
@@ -179,9 +179,7 @@
 		margin-bottom: 1rem;
 	}
 
-	/* li::before { */
-	/* li:not(:only-child)::before { */
-	li:not(.empty)::before {
+	li::before {
 		content: '';
 		flex: 1;
 		order: -1;
@@ -189,10 +187,6 @@
 		color: white;
 		opacity: 0.8;
 		border-bottom: currentColor 2px dotted;
-	}
-
-	.empty {
-		justify-content: center;
 	}
 
 	h2 {

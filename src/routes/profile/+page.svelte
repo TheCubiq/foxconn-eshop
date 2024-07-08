@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { get } from 'svelte/store';
+	import { browser } from '$app/environment';
 
 	// Define a type for user profile information
 	interface UserProfile {
@@ -14,11 +15,6 @@
 	let profile: UserProfile | null = null;
 	let message: string = '';
 	let authUser = get(user);
-
-	// Ensure only authenticated users can access the profile page
-	if (!authUser) {
-		goto('/login');
-	}
 
 	onMount(() => {
 		// Listen for changes to the user store

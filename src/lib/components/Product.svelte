@@ -58,17 +58,21 @@
     <div class="details">
       <span>${(product.price / 100).toFixed(2)}</span>
       <!-- <span>{product.stock?.quantity || 99} in stock</span> -->
-    {#if $stock > 0}
-      <span>{$stock} in stock</span>
-    {:else}
-      <span>Out of stock</span>
-    {/if}
+      {#if $stock > 0}
+        <span> {$stock} in stock </span>
+      {/if}
     </div>
     <p>{product.description}</p>
     <!-- <p class="desc">{lorem}</p> -->
       <button on:click={() => addToCart(product)}
         disabled={$stock <= 0}
-        >Add to Cart</button>
+        >
+        {#if $stock > 0}
+          Add to Cart
+        {:else}
+          Out of stock
+        {/if}
+      </button>
   </div>
 </div>
 
@@ -151,5 +155,41 @@
   h2 {
     text-transform: capitalize;
   }
+
+  button {
+    transition: 0.4s;
+    cursor: pointer;
+    background: var(--clr-bg);
+    color: var(--clr-text);
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    font-size: 1rem;
+    box-shadow: 2px 4px 16px #0008;
+    margin-top: auto;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  button:active {
+    transition-duration: .1s;
+    transform: scale(0.95);
+  }
+
+  .product .container > * {
+		transition: 0.3s;
+    /* filter: brightness(0.7) grayscale(1) sepia(1) hue-rotate(220deg); */
+	}
+
+	.product:hover .container > *,
+	.product:not(:has(+ :hover)):focus-within .container > * {
+		transform: scale(1.1);
+	}
+
 
 </style>

@@ -13,19 +13,29 @@
 
 <main>
   <h1>Products</h1>
-  <div class="product-grid">
+  <ul class="product-grid">
     {#each products as product, idx (product.id)}
-      <div in:fly|global={transitionFix({ y: 100, duration: 1000, delay: idx * 100 + 750 })}>
+      <li in:fly|global={transitionFix({ y: 100, duration: 1000, delay: idx * 100 + 750 })}>
         <Product {product}/>
-      </div>
+      </li>
     {/each}
-  </div>
+  </ul>
 </main>
 
 <style>
+
+  h1 {
+    margin-bottom: .5rem;
+  }
+
   .product-grid {
     gap: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   }
+
+  li {
+    list-style: none;
+  }
+
 </style>

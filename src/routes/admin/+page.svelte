@@ -84,7 +84,7 @@
         modelFileList = null;
         products = [...products, newProd]; // Update local products list
       }
-    } catch (error: Error) {
+    } catch (error: any) {
       message = `Error: ${error.message}, while uploading ${currentUpload}`;
     }
     uploadInProgress = false;
@@ -135,7 +135,9 @@
     {#each products as product}
       <li>
         <img src={product.thumb_url} alt={product.name} style="width: 50px; height: 50px;">
-        <strong>{product.name}</strong>: {product.description} - ${(product.price / 100).toFixed(2)}
+        <p>
+          <strong>{product.name}:</strong> {product.description} - ${(product.price / 100).toFixed(2)}
+        </p>
         <a href={product.model_url} target="_blank">View 3D Model</a>
       </li>
     {/each}
@@ -175,10 +177,10 @@
     display: flex;
     align-items: center;
     margin-bottom: 1em;
+    gap: .5em;
   }
 
   img {
-    margin-right: 1em;
     object-fit: cover;
   }
 </style>
