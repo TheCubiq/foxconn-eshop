@@ -118,7 +118,8 @@
 	}
 
 	a, button {
-		background-color: #333;
+		background: var(--clr-secondary);
+    color: var(--clr-text);
 		padding: 0.5em 1em;
 		border-radius: var(--border-rad);
 		border: none;

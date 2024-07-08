@@ -184,7 +184,6 @@
 		flex: 1;
 		order: -1;
 		height: 1em;
-		color: white;
 		opacity: 0.8;
 		border-bottom: currentColor 2px dotted;
 	}

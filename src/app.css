@@ -15,8 +15,8 @@
   --clr-bg: #040404;
   --clr-text: #d2d2d2;
   --clr-primary: #ffe3f9;
-  --clr-secondary: #cc8ebd;
-  --clr-accent: #3d3d3d;  
+  --clr-secondary: #333;
+  --clr-accent: #cc8ebd;  
 
   --border-rad: 1em;
 
@@ -95,5 +95,18 @@ main {
   :root {
     color: #213547;
     background-color: #ffffff;
+
+    --clr-bg: #f5f5f5;
+    --clr-text: #333333;
+    --clr-primary: #b370a4;
+    --clr-secondary: #e3e3e3;
+    --clr-accent: #3d3d3d;
   }
+
+  /* wait that's illegal */
+  /* tweaking product colors so that it fits the design  */
+  spline-viewer, .product > .container {
+    filter: saturate(0.5);
+  }
+
 }

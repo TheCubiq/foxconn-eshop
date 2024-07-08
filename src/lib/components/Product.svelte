@@ -167,7 +167,8 @@
     display: inline-block;
     border: none;
     font-size: 1rem;
-    box-shadow: 2px 4px 16px #0008;
+    --_op: color-mix(in lch, transparent, var(--clr-bg) 65%);
+    box-shadow: 2px 4px 16px var(--_op, var(--clr-bg));
     margin-top: auto;
   }
 
