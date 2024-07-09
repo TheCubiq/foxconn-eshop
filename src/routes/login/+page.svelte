@@ -38,22 +38,24 @@
   </form>
 
   {#if message}
-    <p>{message}</p>
+  <p>{message}</p>
   {/if}
+
+  <div class="switch-register">
+    <span>Dont have an account yet?</span>
+    <a href="/register">Register</a>
+  </div>
 </main>
 
 <style>
   form {
     max-width: 300px;
-    margin: 0 auto;
+    margin-inline: auto;
+    margin-bottom: .5em;
   }
 
   form div {
     margin-bottom: 1em;
-  }
-
-  label {
-    display: block;
   }
 
   input, button {
